@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flock simulation</title>
+  <style>
+    /* Style for the overlay div */
+    .overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: rgba(194, 188, 188, 0.5);
+      /* Semi-transparent background */
+      color: white;
+      padding: 10px;
+      z-index: 1000;
+      /* Make sure it's on top of other elements */
+      /* padding: 20px; */
+      width: 300px;
+    }
+
+    p {
+      border: 0px;
+      padding: 0px;
+      margin: 0px;
+    }
+
+    .left {
+      text-align: left;
+    }
+
+    .right {
+      text-align: right;
+    }
+
+    .slider {
+      width: 200px;
+    }
+
+    /* CSS to display the tooltip to the right */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      align-self: center;
+    }
+
+    .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 5px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 100%;
+      margin-top: -15px;
+      /* Adjust this value to vertically center the tooltip */
+      margin-left: 5px;
+      /* Adjust this value for spacing between the element and tooltip */
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body style="background-color: black;">
+  <canvas id="canvas1"></canvas>
+  <div id="control-panel" class="overlay">
+    <p class="left tooltip">Show sight range
+      <span class="tooltiptext">Show sight range. </span>
+      <input type="checkbox" id="show_sight_range">
+    </p>
+
+    <div></div>
+
+    <p class="left tooltip">Sight range
+      <span class="tooltiptext">Range used by other parameters. Usually larger than separation range. </span>
+    </p>
+    <p class="right"><input id="sight_range" class="slider" type="range" id="slider" name="slider" min="0" max="150"
+        value="80" /></p>
+
+    <p class="left tooltip">Cohesion Strength
+      <span class="tooltiptext">Strength to move towards birds in sight range. </span>
+    </p>
+    <p class="right"><input id="cohesion_str" class="slider" type="range" id="slider" name="slider" min="0" max="100"
+        value="10" /></p>
+
+    <p class="left tooltip">Alignment strength
+      <span class="tooltiptext">Strength to move in same direction as birds in sight range. </span>
+    </p>
+    <p class="right"><input id="align_str" class="slider" type="range" id="slider" name="slider" min="0" max="100"
+        value="50" /></p>
+
+    <p class="left tooltip">Separation Range
+      <span class="tooltiptext">Range to move away from other birds. </span>
+    </p>
+    <p class="right"><input id="sep_range" class="slider" type="range" id="slider" name="slider" min="0" max="100"
+        value="20" /></p>
+
+    <p class="left tooltip">Separation Strength
+      <span class="tooltiptext">Strength to move away from birds in separation range. </span>
+    </p>
+    <p class="right"><input id="sep_str" class="slider" type="range" id="slider" name="slider" min="0" max="100"
+        value="30" /></p>
+
+    <p class="left tooltip">Show Border Range
+      <span class="tooltiptext">Shows border range.</span>
+      <input type="checkbox" id="show_border_range">
+    </p>
+
+    <div></div>
+
+    <p class="left tooltip">Border Range
+      <span class="tooltiptext">Size of border</span>
+    </p>
+    <p class="right"><input id="border_range" class="slider" type="range" id="slider" name="slider" min="0" max="300"
+        value="100" /></p>
+
+    <p class="left tooltip">Border Strength
+      <span class="tooltiptext">Strength to move away from border. </span>
+    </p>
+    <p class="right"><input id="border_str" class="slider" type="range" id="slider" name="slider" min="0" max="100"
+        value="20" /></p>
+
+    <hr>
+
+    <p class="left">fps: 60</p>
+
+    <p class="left tooltip">
+      Frame time usage
+      <span class="tooltiptext">Percentage of time used in a frame. Starts lagging when > 100%. </span>
+    </p>
+    <p class="right" id="frame_time_usage">
+      0%
+    </p>
+
+    <p class="left tooltip">
+      Bird count
+      <span class="tooltiptext">Number of simulated birds. </span>
+    </p>
+    <p class="right">
+      <input id="bird_count_slider" class="slider" type="range" id="slider" name="slider" min="0" max="2000"
+        value="200" />
+    </p>
+    <p class="right" id="bird_count">
+      50
+    </p>
+
+    <hr>
+
+    <div>
+      <button id="default_setting">Default setting</button>
+      <button id="stress_setting">Stress test setting</button>
+    </div>
+
+  </div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
